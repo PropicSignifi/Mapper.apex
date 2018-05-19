@@ -1,0 +1,130 @@
+---
+title: "Home"
+description: "Mapper.apex is a library to help converting one object to another."
+---
+
+{namespace pageIndex}
+
+/**
+ */
+{template .render}
+	{@param site: ?}
+
+	{call main.render data="all"}
+		{param content kind="html"}
+			{call .header data="all" /}
+			{call .why /}
+			{call .features /}
+			{call .how /}
+			{call .highlights /}
+			{call Footer.render data="all" /}
+		{/param}
+	{/call}
+{/template}
+
+/**
+ */
+{template .header}
+	{@param site: ?}
+
+	<header class="header">
+		<div class="container">
+			<h1 class="header-title">{$site.title}</h1>
+			<h2 class="header-subtitle">{$site.index.description}</h2>
+			<div class="btn-group">
+				<a href="/mapper-apex/tutorials/getting_started/step_1.html" class="btn btn-accent btn-sm">Get Started</a>
+				<a href="https://github.com/Click-to-Cloud/Mapper.apex/" class="btn btn-success btn-sm">GitHub</a>
+				<a href="/" onclick="location.assign('/')" class="btn btn-default btn-sm">Not Interested</a>
+			</div>
+		</div>
+	</header>
+{/template}
+
+/**
+ */
+{template .why}
+	<article class="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-md-offset-2">
+					<h3 class="about-title">Why Mapper.apex?</h3>
+					<p class="about-description">The primary purpose of Mapper.apex is to ease the pain of converting between custom DTO objects and SObjects. Furthermore, Mapper.apex gives you more power when converting the objects, as well as a helpful Mapper.DTO object to easily manipulate nested Map objects.</p>
+				</div>
+			</div>
+		</div>
+	</article>
+{/template}
+
+/**
+ */
+{template .features}
+	<div class="features">
+		<div class="container">
+			<div class="row">
+				<section class="feature col-md-4 col-md-offset-2">
+					<h3 class="feature-title">Common Mapping</h3>
+					<p class="feature-description">Mapper.apex provides easy conversion between objects.</p>
+				</section>
+				<section class="feature col-md-4">
+					<h3 class="feature-title">Complex Conversion</h3>
+					<p class="feature-description">Mapper.apex can be used to convert objects with various configurations.</p>
+				</section>
+				<section class="feature col-md-4">
+					<h3 class="feature-title">Custom DTO</h3>
+					<p class="feature-description">Mapper.apex offers Mapper.DTO to manipulate nested mappings.</p>
+				</section>
+			</div>
+		</div>
+	</div>
+{/template}
+
+/**
+ */
+{template .how}
+	<article class="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-md-offset-2">
+					<h3 class="about-title">Easy to Convert Objects</h3>
+					<p class="about-description">With Mapper.apex, converting objects will be as easy as a piece of cake.</p>
+				</div>
+			</div>
+		</div>
+	</article>
+{/template}
+
+/**
+ */
+{template .highlights}
+	<div class="highlights">
+		<div class="container">
+			<section class="highlight row">
+				<div class="col-md-6 col-md-offset-2">
+					<h4 class="highlight-title">Common Mapping</h4>
+					<p class="highlight-description">Mapper.apex can do simple conversions between custom DTO objects and SObjects.</p>
+				</div>
+				<div class="col-md-5 col-md-offset-1">
+					<img class="highlight-image" src="/mapper-apex/images/highlight_1.png" alt="Simple Conversion" height="200">
+				</div>
+			</section>
+			<section class="highlight row">
+				<div class="col-md-6 col-md-push-9">
+					<h4 class="highlight-title">Complex Conversion</h4>
+					<p class="highlight-description">Mapper.apex can also be used to convert objects with complex rules.</p>
+				</div>
+				<div class="col-md-5 col-md-offset-2 col-md-pull-6">
+					<img class="highlight-image" src="/mapper-apex/images/highlight_2.png" alt="Complex Conversion" height="200">
+				</div>
+			</section>
+			<section class="highlight row">
+				<div class="col-md-6 col-md-offset-2">
+					<h4 class="highlight-title">Nested Mapping</h4>
+					<p class="highlight-description">Mapper.apex offers Mapper.DTO to operate on nested mappings.</p>
+				</div>
+				<div class="col-md-5 col-md-offset-1">
+					<img class="highlight-image" src="/mapper-apex/images/highlight_3.png" alt="Nested Mapping" height="200">
+				</div>
+			</section>
+		</div>
+	</div>
+{/template}
