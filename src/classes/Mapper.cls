@@ -780,6 +780,9 @@ public class Mapper extends Func {
             else if(obj instanceof String) {
                 this.data = (Map<String, Object>)JSON.deserializeUntyped((String)obj);
             }
+            else if(obj instanceof SObject) {
+                this.data = ((SObject)obj).getPopulatedFieldsAsMap();
+            }
             else {
                 this.data = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(obj));
             }
