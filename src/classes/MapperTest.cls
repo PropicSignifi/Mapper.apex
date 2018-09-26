@@ -207,6 +207,15 @@ private class MapperTest {
     }
 
     @isTest
+    private static void ignoreNullMappingTest() {
+        Map<String, Object> src = new Map<String, Object>{ 'name1' => 'value1' };
+        Mapper m = new Mapper(Mapper.IGNORE_NULLS)
+            .mapField('key1', 'name1').mapField('key2', 'name2').toMap();
+
+        System.assertEquals(new Map<String, Object>{ 'key1' => 'value1' }, m.run(src));
+    }
+
+    @isTest
     private static void conversionMappingTest() {
         Map<String, Object> src = new Map<String, Object>{ 'name' => 'value' };
         Mapper m = new Mapper().mapField('key', 'name', R.append.apply('$')).toMap();
