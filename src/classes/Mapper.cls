@@ -47,6 +47,9 @@ public class Mapper extends Func {
     // Convert an object to JSON string
     public static final String TO_JSON = 'JSON';
 
+    // If constructing using this value, null values will be ignored during the mapping
+    public static final Boolean IGNORE_NULLS = true;
+
     // The names for the input objects, used in case of converting multiple objects to one
     private List<String> inputNames = null;
 
@@ -59,11 +62,23 @@ public class Mapper extends Func {
     // Keep track of the type of the object, should it be converted to SObject or Object
     private Type convertToType = null;
 
+    // Ignore null values during the mapping
+    private Boolean ignoreNulls = false;
+
     /**
      * Default constructor
      * */
     public Mapper() {
         super(-1);
+    }
+
+    /**
+     * Constructor with ignore null configuration
+     * */
+    public Mapper(Boolean ignoreNulls) {
+        this();
+
+        this.ignoreNulls = ignoreNulls;
     }
 
     /**
@@ -569,6 +584,10 @@ public class Mapper extends Func {
         for(String fieldName : this.fieldMappers.keySet()) {
             FieldMapper fm = this.fieldMappers.get(fieldName);
             Object value = fm.transform(args);
+            if (ignoreNulls && value == null) {
+                // Ignore null values
+                continue;
+            }
             d.setObject(fieldName, value);
         }
 
