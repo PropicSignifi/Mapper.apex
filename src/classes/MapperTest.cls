@@ -208,11 +208,14 @@ private class MapperTest {
 
     @isTest
     private static void ignoreNullMappingTest() {
-        Map<String, Object> src = new Map<String, Object>{ 'name1' => 'value1' };
+        Map<String, Object> src = new Map<String, Object>{ 'name1' => 'value1', 'name2' => null };
         Mapper m = new Mapper(Mapper.IGNORE_NULLS)
-            .mapField('key1', 'name1').mapField('key2', 'name2').toMap();
+            .mapField('key1', 'name1')
+            .mapField('key2', 'name2')
+            .mapField('key3', 'name3')
+            .toMap();
 
-        System.assertEquals(new Map<String, Object>{ 'key1' => 'value1' }, m.run(src));
+        System.assertEquals(new Map<String, Object>{ 'key1' => 'value1', 'key2' => null }, m.run(src));
     }
 
     @isTest

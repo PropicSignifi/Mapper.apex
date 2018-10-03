@@ -47,7 +47,7 @@ public class Mapper extends Func {
     // Convert an object to JSON string
     public static final String TO_JSON = 'JSON';
 
-    // If constructing using this value, null values will be ignored during the mapping
+    // If constructing using this value, empty keys will be ignored during the mapping
     public static final Boolean IGNORE_NULLS = true;
 
     // The names for the input objects, used in case of converting multiple objects to one
@@ -62,7 +62,7 @@ public class Mapper extends Func {
     // Keep track of the type of the object, should it be converted to SObject or Object
     private Type convertToType = null;
 
-    // Ignore null values during the mapping
+    // Ignore empty keys during the mapping
     private Boolean ignoreNulls = false;
 
     /**
@@ -73,7 +73,7 @@ public class Mapper extends Func {
     }
 
     /**
-     * Constructor with ignore null configuration
+     * Constructor with ignore nulls configuration
      * */
     public Mapper(Boolean ignoreNulls) {
         this();
@@ -317,7 +317,7 @@ public class Mapper extends Func {
      * @return Mapper
      * */
     public Mapper reverseTo(String convertToType, Type objectType) {
-        Mapper reversed = new Mapper();
+        Mapper reversed = new Mapper(ignoreNulls);
         for(FieldMapper fMapper : this.fieldMappers.values()) {
             FieldMapper reversedFieldMapper = fMapper.reverse();
             reversed.mapField(reversedFieldMapper.getFieldName(), reversedFieldMapper);
@@ -580,14 +580,15 @@ public class Mapper extends Func {
      * */
     public override Object execN(List<Object> args) {
         DTO d = new DTO();
+        DTO orig = new DTO(args);
 
         for(String fieldName : this.fieldMappers.keySet()) {
             FieldMapper fm = this.fieldMappers.get(fieldName);
-            Object value = fm.transform(args);
-            if (ignoreNulls && value == null) {
-                // Ignore null values
+            if (ignoreNulls && !orig.containsPath(fm.keys)) {
+                // Ignore empty keys
                 continue;
             }
+            Object value = fm.transform(args);
             d.setObject(fieldName, value);
         }
 
@@ -785,6 +786,15 @@ public class Mapper extends Func {
         }
 
         /**
+         * Construct an instance from a list
+         *
+         * @param sObj The SObject
+         * */
+        public DTO(List<Object> sObj) {
+            this((Object)sObj);
+        }
+
+        /**
          * Construct an instance from an Object
          *
          * @param obj The object
@@ -801,6 +811,12 @@ public class Mapper extends Func {
             }
             else if(obj instanceof SObject) {
                 this.data = ((SObject)obj).getPopulatedFieldsAsMap();
+            }
+            else if(obj instanceof List<Object>) {
+                this.data = new Map<String, Object>();
+                for (Object item : (List<Object>)obj) {
+                    this.data.putAll(new DTO(item).data);
+                }
             }
             else {
                 this.data = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(obj));
