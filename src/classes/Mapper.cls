@@ -317,7 +317,7 @@ public class Mapper extends Func {
      * @return Mapper
      * */
     public Mapper reverseTo(String convertToType, Type objectType) {
-        Mapper reversed = new Mapper();
+        Mapper reversed = new Mapper(ignoreNulls);
         for(FieldMapper fMapper : this.fieldMappers.values()) {
             FieldMapper reversedFieldMapper = fMapper.reverse();
             reversed.mapField(reversedFieldMapper.getFieldName(), reversedFieldMapper);
