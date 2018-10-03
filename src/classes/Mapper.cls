@@ -785,6 +785,15 @@ public class Mapper extends Func {
         }
 
         /**
+         * Construct an instance from a list
+         *
+         * @param sObj The SObject
+         * */
+        public DTO(List<Object> sObj) {
+            this((Object)sObj);
+        }
+
+        /**
          * Construct an instance from an Object
          *
          * @param obj The object
@@ -801,6 +810,12 @@ public class Mapper extends Func {
             }
             else if(obj instanceof SObject) {
                 this.data = ((SObject)obj).getPopulatedFieldsAsMap();
+            }
+            else if(obj instanceof List<Object>) {
+                this.data = new Map<String, Object>();
+                for (Object item : (List<Object>)obj) {
+                    this.data.putAll(new DTO(item).data);
+                }
             }
             else {
                 this.data = (Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(obj));
