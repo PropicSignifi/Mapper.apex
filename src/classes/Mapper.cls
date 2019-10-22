@@ -952,8 +952,7 @@ public class Mapper extends Func {
                 return nextPath.isEmpty() ? next : getObject(next, nextPath);
             }
             else if(data instanceof SObject) {
-                SObject so = (SObject)data;
-                Object next = so.get(key);
+                Object next = new DTO(data).getObject(key);
                 List<String> nextPath = R.of(path).drop(1).toStringList();
                 return nextPath.isEmpty() ? next : getObject(next, nextPath);
             }
